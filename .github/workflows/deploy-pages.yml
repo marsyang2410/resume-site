@@ -1,0 +1,33 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    # run only when you push a new resume.pdf (or include index/style if you like)
+    paths:
+      - 'assets/resume.pdf'
+      - 'index.html'
+      - 'style.css'
+      
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read   # for checkout
+      pages: write     # to deploy
+      id-token: write  # required by configure-pages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./         # publish everything in your repo root
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
